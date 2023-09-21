@@ -36,12 +36,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        largeBoblesOne.layer.cornerRadius = 90
+        largeBoblesOne.layer.cornerRadius = 60
         largeBoblesOne.isHidden = true
-        largeBoblesTwo.layer.cornerRadius = 90
+        largeBoblesOne.alpha = 0
+        largeBoblesTwo.layer.cornerRadius = 60
         largeBoblesTwo.isHidden = true
-        largeBoblesThree.layer.cornerRadius = 90
+        largeBoblesTwo.alpha = 0
+        largeBoblesThree.layer.cornerRadius = 60
         largeBoblesThree.isHidden = true
+        largeBoblesThree.alpha = 0
     }
     
    func appendToArray() {
@@ -93,12 +96,34 @@ class ViewController: UIViewController {
                                 if y == Int(gesture.view!.frame.origin.y) {
                                     print("true")
                                     appendToLargeBoblesArray()
-                                    bobles.isHidden = true
+
                                     gesture.view?.isHidden = true
                                     for largeBobles in largeBoblesArray {
                                         if largeBobles.isHidden == true {
                                             largeBobles.center = CGPoint (x: bobles.center.x, y: bobles.center.y)
+                                            
+                                            
                                             largeBobles.isHidden = false
+                                            
+                                            UIView.animateKeyframes(withDuration: 3, delay: 0) {
+                                                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1) {
+                                                    bobles.alpha = 0
+                                                }
+                                                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 3) {
+                                                    bobles.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+                                                }
+                                                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1) {
+                                                    largeBobles.alpha = 1
+                                                }
+                                                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 3) {
+                                                    largeBobles.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+                                                }
+                                                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 2) {
+                                                    largeBobles.backgroundColor = .systemIndigo
+                                                }
+                                            } completion: { _ in
+                                                bobles.isHidden = true
+                                            }
                                             break
                                         }
                                     }
